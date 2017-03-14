@@ -34,4 +34,13 @@ class MessageConstraint
     {
         return preg_match("(unicode|plain)", $value);
     }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function validateRecipients($value)
+    {
+        return is_array($value);
+    }
 }
