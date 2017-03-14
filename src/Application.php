@@ -79,6 +79,13 @@ class Application
                     }
                     $body = isset($result['data']) && !empty($result['data']) ? $result['data'] : $body;
                     break;
+                case 'object':
+                    $result = json_decode(json_encode($result), true);
+                    if (isset($result['error'])) {
+                        throw new Exception($result['error']);
+                    }
+                    $body = isset($result['data']) && !empty($result['data']) ? $result['data'] : $result;
+                    break;
                 case 'string':
                 case 'integer':
                     $body = $result;
