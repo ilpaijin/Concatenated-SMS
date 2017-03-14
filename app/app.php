@@ -2,11 +2,11 @@
 
 use Ilpaijin\Application;
 
-$container = new \Ilpaijin\DIContainer();
-$app = new Application($container);
+$app = new Application(new \Ilpaijin\DIContainer());
 
 $app->routes['messages'] = 'MessageController';
+$app->routes['balances'] = 'BalanceController';
 
-$app->container->set('messagebird', new MessageBird\Client());
+$app->container->set('messagebird', new MessageBird\Client("clBHUTYfRaDwHdJl6yy3npYf7"));
 
 return $app;

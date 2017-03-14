@@ -2,13 +2,11 @@
 
 namespace Ilpaijin\Controller;
 
-use Exception;
-
 /**
- * Class MessageController
+ * Class BalanceController
  * @package Ilpaijin\Controller
  */
-class MessageController extends ControllerDIAware
+class BalanceController extends ControllerDIAware
 {
     /**
      * @return string
@@ -17,14 +15,10 @@ class MessageController extends ControllerDIAware
     {
         try{
             $balance = $this->container->get('messagebird')->balance->read();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
         }
 
         return $balance->amount;
-    }
-
-    public function post() {
-
     }
 }

@@ -33,6 +33,8 @@ class Application
      */
     public function run()
     {
+        header("Content-Type: application/json; charset=utf-8;");
+
         $requestUri = explode("/", ltrim($_SERVER['REQUEST_URI'], "/"));
 
         $route_match = $this->routes[$requestUri[0]];
@@ -40,8 +42,7 @@ class Application
         $controller = "Ilpaijin\\Controller\\".ucfirst($route_match);
 
         if (!$route_match || !class_exists($controller)) {
-            $this->sendError();
-            return;
+            return $this->sendError('Route Not Found');
         }
 
         $controller = new $controller($this->container);
@@ -69,15 +70,17 @@ class Application
         ob_start();
 
         try {
-            header("Content-Type: application/json; charset=utf-8;");
-
             $result = $controller->$action($request);
 
             switch(gettype($result)) {
                 case 'array':
+                    if (isset($result['error'])) {
+                        throw new Exception($result['error']);
+                    }
                     $body = isset($result['data']) && !empty($result['data']) ? $result['data'] : $body;
                     break;
                 case 'string':
+                case 'integer':
                     $body = $result;
                     break;
             }
@@ -87,8 +90,7 @@ class Application
             echo json_encode(['data' => $body]);
 
         } catch (Exception $e) {
-            header("HTTP/1.1 {$e->getCode()} {$e->getMessage()}");
-            echo json_encode(["error" => $e->getMessage()]);
+            return $this->sendError($e->getMessage());
         }
 
         ob_end_flush();
@@ -97,9 +99,10 @@ class Application
     /**
      *
      */
-    private function sendError()
+    private function sendError($error)
     {
         header("HTTP/1.1 400 Bad Request");
+        echo json_encode(["error" => $error]);
         ob_end_flush();
     }
 }
