@@ -11,13 +11,22 @@ use Exception;
 class Application
 {
     /**
-     * @var array
+     * @var \Ilpaijin\DIContainer
      */
-    public $services = [];
+    public $container = '';
     /**
      *
      */
     public $routes = [];
+
+    /**
+     * Application constructor.
+     * @param DIContainer $container
+     */
+    public function __construct(DIContainer $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      *
@@ -35,7 +44,7 @@ class Application
             return;
         }
 
-        $controller = new $controller();
+        $controller = new $controller($this->container);
 
         $method = strtolower($_SERVER['REQUEST_METHOD']);
 

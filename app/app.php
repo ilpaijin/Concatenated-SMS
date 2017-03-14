@@ -2,10 +2,11 @@
 
 use Ilpaijin\Application;
 
-$app = new Application();
+$container = new \Ilpaijin\DIContainer();
+$app = new Application($container);
 
 $app->routes['messages'] = 'MessageController';
 
-$app->services['messagebird'] = new MessageBird\Client();
+$app->container->set('messagebird', new MessageBird\Client());
 
 return $app;
