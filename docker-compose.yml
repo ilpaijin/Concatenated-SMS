@@ -1,0 +1,14 @@
+version: '2'
+services:
+  webserver:
+    build: .docker/webserver
+    ports:
+      - "5000:80"
+    volumes:
+      - ./:/var/www/html
+  php-fpm:
+    image: php:7.1-fpm
+    expose:
+      - 9000
+    volumes:
+      - ./:/var/www/html

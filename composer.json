@@ -1,0 +1,21 @@
+{
+  "name": "ilpaijin/concatenated-sms",
+  "description": "Concatenad SMS demo",
+  "authors": [
+    {
+      "name": "ilpaijin",
+      "email": "ilpaijin@gmail.com"
+    }
+  ],
+  "require": {
+    "messagebird/php-rest-api":"~1.6.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.7.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ilpaijin\\": "src/"
+    }
+  }
+}
