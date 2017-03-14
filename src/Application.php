@@ -67,6 +67,10 @@ class Application
                 break;
         }
 
+        if (!method_exists($controller, $action)) {
+            return $this->sendError('Server Error', '500 Server Error');
+        }
+
         ob_start();
 
         try {
@@ -106,9 +110,9 @@ class Application
     /**
      *
      */
-    private function sendError($error)
+    private function sendError($error, $status = '400 Bad Request')
     {
-        header("HTTP/1.1 400 Bad Request");
+        header("HTTP/1.1 " . $status);
         echo json_encode(["error" => $error]);
         ob_end_flush();
     }
