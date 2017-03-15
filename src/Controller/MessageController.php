@@ -14,35 +14,61 @@ use Ilpaijin\Validator\Constraints\MessageConstraint as MessageConstraint;
 class MessageController extends ControllerDIAware
 {
     /**
-     * @return string
+     * @param $request
+     * @return array
+     * @throws UnprocessableEntityException
      */
-    public function getAll()
-    {
-        $messageService = $this->container->get('messagebird');
+    public function post($request) {
+        $message = $this->deserializeIntoMessage($request);
         $validator = $this->container->get('validator');
 
-        try{
-            $message             = new BirdMessage();
-            $message->originator = 'MessageBird';
-            $message->recipients = array('0034684125308');
-            $message->body       = 'LØrem aeconsectetur adipiscing elit. Morbi a commodo est. Curabitur imperdiet lacinia tristique. Orci varius natoque penatibus et magnis dis parturient montes, nascetur massa nunc.';
-            $message->datacoding = 'unicode';
-//            $messageResult = $messageService->messages->create($message);
-        } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
-
         if (!$validator->validate($message, new MessageConstraint)) {
-            throw new UnprocessableEntityException();
+            throw new UnprocessableEntityException('tell me what went wrong');
         }
 
-        var_dump(mb_strlen($message->body, '8bit'));
-        exit;
+        if($this->enqueueMessage($message)) {
 
-//        return ['data' => ['service-result' => $messageResult]];
+        }
+
+        return ['data' => 'Message has been processed', 'status' => '202 Accepted'];
     }
 
-    public function post() {
+    /**
+     * @param $data
+     * @return BirdMessage
+     */
+    private function deserializeIntoMessage ($data)
+    {
+        $data = json_decode($data, true);
 
+        $message = new BirdMessage();
+        $message->originator = isset($data['originator']) ? $data['originator'] : '';
+        $message->recipients = isset($data['recipients']) ? $data['recipients'] : '';
+        $message->body = isset($data['msg']) ? $data['msg'] : '';
+        $message->datacoding = isset($data['datacoding']) ? $data['datacoding'] : '';
+
+        return $message;
+    }
+
+    /**
+     * @param $message
+     * @return bool
+     */
+    private function enqueueMessage($message)
+    {
+        $queue = $this->container->get('queue');
+
+        $messageSegments = str_split($message->body, 153);
+
+        $counter = 1;
+        foreach ($messageSegments as $segment ) {
+            ++$counter;
+            $udh = '050003CC02' . dechex($counter);
+            $message->setBinarySms($udh, $segment);
+
+            $queue->push(json_encode($message));
+        }
+
+        return true;
     }
 }
