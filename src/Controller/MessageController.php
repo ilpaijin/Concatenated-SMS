@@ -14,6 +14,15 @@ use Ilpaijin\Validator\Constraints\MessageConstraint as MessageConstraint;
 class MessageController extends ControllerDIAware
 {
     /**
+     * @return array
+     */
+    public function getAll()
+    {
+        $queue = $this->container->get('queue');
+        return ['data' => ['messages' => array_map(function($item) { return json_decode($item); }, $queue->getAll())]];
+    }
+
+    /**
      * @param $request
      * @return array
      * @throws UnprocessableEntityException
@@ -68,7 +77,7 @@ class MessageController extends ControllerDIAware
             }
         }
 
-        var_dump($queue->show());
+        var_dump($queue->getAll());
 
         return true;
     }

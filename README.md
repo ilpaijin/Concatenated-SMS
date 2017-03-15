@@ -1,7 +1,7 @@
 # Concatenated SMS
 
 ###### Analysing SMS concatenation on MessageBird API
- 
+ The basic flow is 
 ### Setup
 - `make run`
 

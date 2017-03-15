@@ -22,7 +22,7 @@ func main()  {
 	msgBirdClient := messagebird.New("clBHUTYfRaDwHdJl6yy3npYf7")
 
 	for {
-		time.Sleep(1 * time.Second)
+		time.Sleep(5 * time.Second)
 
 		message, err := getMessageFromQueue(redisConn);
 		if err != nil {
