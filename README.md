@@ -4,9 +4,9 @@
 The points of this demo is to:
 - play with SMS concatenation and UDH 
 - using MessageBird API's (both Php and Golang)
-- using docker-compose 
+- using Docker Compose 
 - using Redis as a messages queue
-- using Php for API entirely from scratch
+- using Php for API (written entirely from scratch)
 - using Golang for the messages worker
 
 #### Setup
