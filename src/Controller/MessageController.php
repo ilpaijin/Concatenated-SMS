@@ -66,7 +66,9 @@ class MessageController extends ControllerDIAware
             $udh = '050003CC02' . dechex($counter);
             $message->setBinarySms($udh, $segment);
 
-            $queue->push(json_encode($message));
+            if (!$queue->push($message)) {
+                return false;
+            }
         }
 
         return true;
