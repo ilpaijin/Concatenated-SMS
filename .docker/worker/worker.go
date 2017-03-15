@@ -6,6 +6,7 @@ import (
 	"time"
 	"github.com/messagebird/go-rest-api"
 	"encoding/json"
+	"strconv"
 )
 
 
@@ -42,16 +43,18 @@ func main()  {
 			TypeDetails: queuedMsg.TypeDetails,
 		}
 
-		log.Printf("%+v", queuedMsg)
+		var recipients []string
 
-		messageReceipt, err := msgBirdClient.NewMessage(queuedMsg.Originator, []string{"0034684125308"}, queuedMsg.Body, params)
+		for _, item := range queuedMsg.Recipients.Items {
+			recipients = append(recipients, strconv.Itoa(item.Recipient))
+		}
+
+		messageReceipt, err := msgBirdClient.NewMessage(queuedMsg.Originator, recipients, queuedMsg.Body, params)
 		if (err != nil) {
 			log.Fatalf("error: %s", err)
 		}
 
-		log.Fatal(messageReceipt)
-
-
+		log.Println(messageReceipt)
 	}
 }
 

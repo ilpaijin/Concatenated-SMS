@@ -7,7 +7,7 @@
     "totalDeliveryFailedCount":0,
     "items":[
       {
-        "recipient":"0034684125308",
+        "recipient":34684125308,
         "status":"",
         "statusDatetime":"2015-07-03T07:55:31+00:00"
       }
