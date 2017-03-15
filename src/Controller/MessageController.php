@@ -60,7 +60,7 @@ class MessageController extends ControllerDIAware
 
         $messageSegments = str_split($message->body, 153);
 
-        $counter = 1;
+        $counter = 0;
         foreach ($messageSegments as $segment ) {
             ++$counter;
             $udh = '050003CC02' . dechex($counter);
@@ -70,6 +70,8 @@ class MessageController extends ControllerDIAware
                 return false;
             }
         }
+
+        var_dump($queue->show());
 
         return true;
     }
