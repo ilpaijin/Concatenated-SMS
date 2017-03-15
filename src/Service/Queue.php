@@ -41,9 +41,17 @@ class Queue
      */
     public function push($data)
     {
-        $llen = $this->conn->llen(QUEUE_LIST);
-        $newllen = $this->conn->lpush(QUEUE_LIST, json_encode($data));
+        $llen = $this->conn->llen(self::QUEUE_LIST);
+        $newllen = $this->conn->lpush(self::QUEUE_LIST, json_encode($data));
 
         return $newllen == $llen+1;
+    }
+
+    /**
+     * @return array
+     */
+    public function show()
+    {
+        return $this->conn->lrange(self::QUEUE_LIST, 0, -1);
     }
 }
