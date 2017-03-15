@@ -42,19 +42,16 @@ class MessageController extends ControllerDIAware
         $data = json_decode($data, true);
 
         $message = new BirdMessage();
-        $message->originator = isset($data['originator']) ? $data['originator'] : '';
-        $message->recipients = isset($data['recipients']) ? $data['recipients'] : '';
-        $message->body = isset($data['msg']) ? $data['msg'] : '';
-        $message->datacoding = isset($data['datacoding']) ? $data['datacoding'] : '';
+        $message->loadFromArray($data);
 
         return $message;
     }
 
     /**
-     * @param $message
+     * @param BirdMessage $message
      * @return bool
      */
-    private function enqueueMessage($message)
+    private function enqueueMessage(BirdMessage $message)
     {
         $queue = $this->container->get('queue');
 
