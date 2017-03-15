@@ -2,6 +2,8 @@
 
 namespace Ilpaijin\Controller;
 
+use Ilpaijin\DIContainer;
+
 /**
  * Class BaseController
  * @package Ilpaijin\Controller
@@ -15,9 +17,9 @@ class ControllerDIAware
 
     /**
      * ControllerDIAware constructor.
-     * @param $app
+     * @param DIContainer $container
      */
-    public function __construct($container)
+    public function __construct(DIContainer $container)
     {
         $this->container = $container;
     }
