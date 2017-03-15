@@ -1,6 +1,17 @@
 {
   "originator": "MessageBird",
-  "recipients": ["0034684125308"],
-  "msg": "LØrem aeconsectetur adipiscing elite. Curabitur imperdiet lacinia tristique. Orci varius natoque penatibus et magnis dis parturient montes, nascetur massa nunc.",
-  "datacoding": "unicode"
+  "recipients":{
+    "totalCount":1,
+    "totalSentCount":1,
+    "totalDeliveredCount":0,
+    "totalDeliveryFailedCount":0,
+    "items":[
+      {
+        "recipient":"0034684125308",
+        "status":"",
+        "statusDatetime":"2015-07-03T07:55:31+00:00"
+      }
+    ]
+  },
+  "body": "LØrem aeconsectetur adipiscing elite. Curabitur imperdiet lacinia tristique. Orci varius natoque penatibus et magnis dis parturient montes, nascetur massa nunc."
 }
