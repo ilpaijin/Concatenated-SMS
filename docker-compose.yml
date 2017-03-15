@@ -2,6 +2,8 @@ version: '2'
 services:
   webserver:
     build: .docker/webserver
+    links:
+      - php-fpm
     ports:
       - "5000:80"
     volumes:
@@ -14,6 +16,11 @@ services:
       - redis
     volumes:
       - ./:/var/www/html
+  worker:
+    build: .docker/worker
+    links:
+      - redis
+      - php-fpm
   redis:
     image: sameersbn/redis
     restart: always
