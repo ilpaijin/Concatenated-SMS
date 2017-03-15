@@ -1,14 +1,13 @@
 # Concatenated SMS
 
 ###### Analysing SMS concatenation on MessageBird API
-The points of this demo is to play with:
-- using docker-compose 
+The points of this demo is to:
+- play with SMS concatenation and UDH 
 - using MessageBird API's (both Php and Golang)
+- using docker-compose 
 - using Redis as a messages queue
 - using Php for API entirely from scratch
 - using Golang for the messages worker
-- play with SMS concatenation and UDH 
-- play with services handling
 
 #### Setup
 `make run`
