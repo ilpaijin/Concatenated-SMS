@@ -8,6 +8,6 @@ $app->routes['messages'] = 'MessageController';
 $app->routes['balances'] = 'BalanceController';
 
 $app->container->set('validator', new Ilpaijin\Validator\Validator);
-$app->container->set('queue', new Ilpaijin\Service\Queue);
+$app->container->set('message-queue', new Ilpaijin\Service\MessageQueue);
 
 return $app;

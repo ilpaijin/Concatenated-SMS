@@ -18,7 +18,7 @@ class MessageController extends ControllerDIAware
      */
     public function getAll()
     {
-        $queue = $this->container->get('queue');
+        $queue = $this->container->get('message-queue');
         return ['data' => ['messages' => array_map(function($item) { return json_decode($item); }, $queue->getAll())]];
     }
 
@@ -62,22 +62,13 @@ class MessageController extends ControllerDIAware
      */
     private function enqueueMessage(BirdMessage $message)
     {
-        $queue = $this->container->get('queue');
+        $messageQueue = $this->container->get('message-queue');
 
-        $messageSegments = str_split($message->body, 153);
-
-        $counter = 0;
-        foreach ($messageSegments as $segment ) {
-            ++$counter;
-            $udh = '050003CC02' . dechex($counter);
-            $message->setBinarySms($udh, $segment);
-
-            if (!$queue->push($message)) {
-                return false;
-            }
+        if (!$messageQueue->send($message)) {
+            //log
+            //throw error
+            return false;
         }
-
-        var_dump($queue->getAll());
 
         return true;
     }
